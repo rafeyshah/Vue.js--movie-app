@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import env from '@/env.js'
 // @ is an alias to /src
 export default {
   data() {
@@ -34,7 +36,13 @@ export default {
   methods: {
     SearchMovies() {
       if (this.search != "") {
-        console.log(this.search)
+        axios.get(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${this.search}`)
+          .then(response => {
+            this.movies = response.data.Search
+            this.search = ""
+            console.log(this.movies)
+          })
+
       }
     }
   }
