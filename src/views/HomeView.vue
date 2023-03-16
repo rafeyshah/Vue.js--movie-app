@@ -37,27 +37,32 @@
 </template>
 
 <script>
-import axios from 'axios'
-import env from '@/env.js'
+
+
+import store from '@/store'
 // @ is an alias to /src
 export default {
+
   data() {
     return {
       search: "",
-      movies: []
+
     }
   },
   methods: {
     SearchMovies() {
       if (this.search != "") {
-        axios.get(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${this.search}`)
-          .then(response => {
-            this.movies = response.data.Search
-            this.search = ""
-            console.log(this.movies)
-          })
+        store.dispatch('searchedMovies', this.search)
+        this.search = ""
+        // console.log(store.state.movies)
 
       }
+    }
+  },
+  computed:{
+    movies: function(){
+      console.log(store.state.movies)
+      return (store.state.movies)
     }
   }
 }
